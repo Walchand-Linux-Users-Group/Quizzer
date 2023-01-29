@@ -5,7 +5,7 @@ step 1 : Go to https://labs.play-with-docker.com/
 step 2 : Add a new Instance
 
 step 3 : Run Following Commands sequentially :
-
+```
 	1) docker pull ubuntu:latest
 
  	2) docker run -it ubuntu bash
@@ -21,3 +21,4 @@ step 3 : Run Following Commands sequentially :
 	7) cd Quizzer
 
 	8) go run main.go dataPuller.go
+```
