@@ -60,7 +60,7 @@ func main() {
 
 	problems := questionPuller(url)
 	plen := len(problems)
-	tobj := time.NewTimer(20*time.Duration(plen) * time.Second) // Time for all the questions --> 1 question => 10 seconds
+	tobj := time.NewTimer(30*time.Duration(plen) * time.Second) // Time for all the questions --> 1 question => 10 seconds
 	start := time.Now()
 
 	var correctAns int = 0
@@ -103,17 +103,17 @@ ProblemLoop:
 			break ProblemLoop
 		case iAns := <-ansC:
 			if iAns == problem.Answer {
-				correctAns = correctAns + 600
+				correctAns = correctAns + 800
 				
 				
 			}
 			if i == len(problems)-1 {
 				fmt.Print("All Questions Submitted Successfully...:)\n ")
-				timeRemaining := float64(plen*20) - time.Since(start).Seconds()
+				timeRemaining := float64(plen*30) - time.Since(start).Seconds()
 				
 				correctAns += int(timeRemaining)
 			}
-			rtime := float64(plen*20) - time.Since(start).Seconds()
+			rtime := float64(plen*30) - time.Since(start).Seconds()
 			fmt.Println(string("\033[31m"),"---------:Time Remaining ", int(rtime), " Seconds:---------")
 
 
