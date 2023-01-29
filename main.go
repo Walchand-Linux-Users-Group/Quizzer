@@ -34,7 +34,7 @@ func main() {
 	
 	var name string
 	url:=BASE_URL+"q"
-	fmt.Print(url);
+	//fmt.Print(url);
 	fmt.Print("Enter your name : ")
 	nameC := make(chan string)
 	go func() {
@@ -58,7 +58,7 @@ func main() {
 	id, _ := ioutil.ReadAll(postData.Body)
 
 	problems := questionPuller(url)
-	tobj := time.NewTimer(20 * time.Second) // Time for all the questions --> 1 question => 10 seconds
+	tobj := time.NewTimer(10*time.Duration(len(problems)) * time.Second) // Time for all the questions --> 1 question => 10 seconds
 
 	var correctAns int = 0
 ProblemLoop:
