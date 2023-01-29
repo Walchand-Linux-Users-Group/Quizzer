@@ -67,9 +67,17 @@ ProblemLoop:
 
 	for i, problem := range problems {
 		var answer string
-		fmt.Printf("\nProblem %d: %s", i+1, problem.Question)
-		fmt.Printf("\n a. %s \n b. %s \n c. %s \n d. %s \n Select Option 'a','b','c','d' : ",
-			problem.Options.A, problem.Options.B, problem.Options.C, problem.Options.D)
+		// fmt.Printf(,"\nProblem %d: %s\n", i+1, problem.Question)
+
+		fmt.Println(string("\033[32m"),"Problem ", i+1, ": ", problem.Question)
+		fmt.Println(string("\033[34m"),"a. ", problem.Options.A)
+		fmt.Println(string("\033[36m"),"b. ", problem.Options.B)
+		fmt.Println(string("\033[33m"),"c. ", problem.Options.C)
+		fmt.Println(string("\033[35m"),"d. ", problem.Options.D)
+
+
+		// fmt.Printf("\n a. %s \n b. %s \n c. %s \n d. %s \n Select Option 'a','b','c','d' : ",
+		// 	problem.Options.A, problem.Options.B, problem.Options.C, problem.Options.D)
 		ansC := make(chan string)
 
 		go func() {
@@ -84,8 +92,7 @@ ProblemLoop:
 		case iAns := <-ansC:
 			if iAns == problem.Answer {
 				correctAns = correctAns + 300
-				rtime := float64(plen*10) - time.Since(start).Seconds()
-				fmt.Println("---------:Time Remaining ", int(rtime), " Seconds:---------")
+				
 				
 			}
 			if i == len(problems)-1 {
@@ -94,7 +101,8 @@ ProblemLoop:
 				fmt.Println(timeRemaining)
 				correctAns += int(timeRemaining)
 			}
-
+			rtime := float64(plen*10) - time.Since(start).Seconds()
+			fmt.Println(string("\033[31m"),"---------:Time Remaining ", int(rtime), " Seconds:---------")
 		}
 
 	}
@@ -125,7 +133,7 @@ ProblemLoop:
 	}
 
 	id2, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(id2))
-	fmt.Printf("Score is %d ", correctAns)
+	fmt.Println(string("\033[32m"),string(id2))
+	fmt.Println(string("\033[32m"),"Score is ", correctAns)
 
 }
