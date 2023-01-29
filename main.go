@@ -69,12 +69,12 @@ ProblemLoop:
 		var answer string
 		// fmt.Printf(,"\nProblem %d: %s\n", i+1, problem.Question)
 
-		fmt.Println(string("\033[32m"),"Problem ", i+1, ": ", problem.Question)
+		fmt.Println(string("\033[37m"),"Problem ", i+1, ": ", problem.Question)
 		fmt.Println(string("\033[34m"),"a. ", problem.Options.A)
 		fmt.Println(string("\033[36m"),"b. ", problem.Options.B)
 		fmt.Println(string("\033[33m"),"c. ", problem.Options.C)
 		fmt.Println(string("\033[35m"),"d. ", problem.Options.D)
-
+		fmt.Print(string("\033[32m"), "Enter Your Choice (a, b, ,c ,d ) : ")
 
 		// fmt.Printf("\n a. %s \n b. %s \n c. %s \n d. %s \n Select Option 'a','b','c','d' : ",
 		// 	problem.Options.A, problem.Options.B, problem.Options.C, problem.Options.D)
@@ -98,7 +98,7 @@ ProblemLoop:
 			if i == len(problems)-1 {
 				fmt.Print("All Questions Submitted Successfully...:)\n ")
 				timeRemaining := float64(plen*10) - time.Since(start).Seconds()
-				fmt.Println(timeRemaining)
+				
 				correctAns += int(timeRemaining)
 			}
 			rtime := float64(plen*10) - time.Since(start).Seconds()
