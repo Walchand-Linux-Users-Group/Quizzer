@@ -58,7 +58,9 @@ func main() {
 	id, _ := ioutil.ReadAll(postData.Body)
 
 	problems := questionPuller(url)
-	tobj := time.NewTimer(10*time.Duration(len(problems)) * time.Second) // Time for all the questions --> 1 question => 10 seconds
+	plen := len(problems)
+	tobj := time.NewTimer(10*time.Duration(plen) * time.Second) // Time for all the questions --> 1 question => 10 seconds
+	start := time.Now()
 
 	var correctAns int = 0
 ProblemLoop:
@@ -81,10 +83,16 @@ ProblemLoop:
 			break ProblemLoop
 		case iAns := <-ansC:
 			if iAns == problem.Answer {
-				correctAns++
+				correctAns = correctAns + 300
+				rtime := float64(plen*10) - time.Since(start).Seconds()
+				fmt.Println("---------:Time Remaining ", int(rtime), " Seconds:---------")
+				
 			}
 			if i == len(problems)-1 {
 				fmt.Print("All Questions Submitted Successfully...:)\n ")
+				timeRemaining := float64(plen*10) - time.Since(start).Seconds()
+				fmt.Println(timeRemaining)
+				correctAns += int(timeRemaining)
 			}
 
 		}
@@ -118,6 +126,6 @@ ProblemLoop:
 
 	id2, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(id2))
-	fmt.Printf("Correct %d out of %d", correctAns, len(problems))
+	fmt.Printf("Score is %d ", correctAns)
 
 }
