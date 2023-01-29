@@ -1,12 +1,13 @@
 package main
 
-
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -59,7 +60,7 @@ func main() {
 
 	problems := questionPuller(url)
 	plen := len(problems)
-	tobj := time.NewTimer(10*time.Duration(plen) * time.Second) // Time for all the questions --> 1 question => 10 seconds
+	tobj := time.NewTimer(20*time.Duration(plen) * time.Second) // Time for all the questions --> 1 question => 10 seconds
 	start := time.Now()
 
 	var correctAns int = 0
@@ -69,7 +70,7 @@ ProblemLoop:
 		var answer string
 		// fmt.Printf(,"\nProblem %d: %s\n", i+1, problem.Question)
 
-		fmt.Println(string("\033[37m"),"Problem ", i+1, ": ", problem.Question)
+		fmt.Println(string("\033[37m"),"Problem ", i+1, " out of ",plen,": \n", problem.Question)
 		fmt.Println(string("\033[34m"),"a. ", problem.Options.A)
 		fmt.Println(string("\033[36m"),"b. ", problem.Options.B)
 		fmt.Println(string("\033[33m"),"c. ", problem.Options.C)
@@ -79,10 +80,21 @@ ProblemLoop:
 		// fmt.Printf("\n a. %s \n b. %s \n c. %s \n d. %s \n Select Option 'a','b','c','d' : ",
 		// 	problem.Options.A, problem.Options.B, problem.Options.C, problem.Options.D)
 		ansC := make(chan string)
-
+		reader:= bufio.NewReader(os.Stdin)
+		
 		go func() {
-			fmt.Scanf("%s", &answer)
+			ans,error := reader.ReadString('\n')
+			// fmt.Scanf("%s", &answer)
+			if error!=nil{
+				fmt.Println("Error in reading file")
+			}
+			if ans ==" "{
+				ans = "f"
+			}
+			answer = ans[0:1]
+			
 			ansC <- answer
+
 		}()
 
 		select {
@@ -91,18 +103,20 @@ ProblemLoop:
 			break ProblemLoop
 		case iAns := <-ansC:
 			if iAns == problem.Answer {
-				correctAns = correctAns + 300
+				correctAns = correctAns + 600
 				
 				
 			}
 			if i == len(problems)-1 {
 				fmt.Print("All Questions Submitted Successfully...:)\n ")
-				timeRemaining := float64(plen*10) - time.Since(start).Seconds()
+				timeRemaining := float64(plen*20) - time.Since(start).Seconds()
 				
 				correctAns += int(timeRemaining)
 			}
-			rtime := float64(plen*10) - time.Since(start).Seconds()
+			rtime := float64(plen*20) - time.Since(start).Seconds()
 			fmt.Println(string("\033[31m"),"---------:Time Remaining ", int(rtime), " Seconds:---------")
+
+
 		}
 
 	}
