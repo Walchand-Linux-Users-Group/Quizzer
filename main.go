@@ -1,5 +1,4 @@
 package main
-
 import (
 	"bufio"
 	"bytes"
@@ -23,13 +22,10 @@ type api struct{
 func main() {
 	
 	res ,_:=http.Get("https://golangapi-production.up.railway.app/api")
-
 	a,err:=	ioutil.ReadAll(res.Body)
 
 	var GETAPI api;
 	json.Unmarshal(a,&GETAPI)
-
-
 	
 	BASE_URL := GETAPI.Api;
 	
@@ -56,8 +52,8 @@ func main() {
 	if err != nil {
 		fmt.Print("Something went wrong in post req")
 	}
+	
 	id, _ := ioutil.ReadAll(postData.Body)
-
 	problems := questionPuller(url)
 	plen := len(problems)
 	tobj := time.NewTimer(30*time.Duration(plen) * time.Second) // Time for all the questions --> 1 question => 10 seconds
@@ -121,8 +117,6 @@ ProblemLoop:
 
 	}
 
-
-
 	m2 := map[string]string{
 		"_id":   string(id),
 		"score": strconv.Itoa(correctAns),
@@ -132,22 +126,18 @@ ProblemLoop:
 		fmt.Print("conversion to json went wrong ")
 		return
 	}
-
 	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodPut, BASE_URL+"updateUser", bytes.NewBuffer(jsonData2))
 	if err != nil {
 		panic(err)
 	}
-
-	// set the request header Content-Type for json
+	// Set the request header Content-Type for json
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	resp, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}
-
 	id2, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string("\033[32m"),string(id2))
 	fmt.Println(string("\033[32m"),"Score is ", correctAns)
-
 }
